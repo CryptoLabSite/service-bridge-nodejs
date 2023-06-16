@@ -11,4 +11,3 @@ export type WriteContractReq = {
   method: string;
   args: Array<any>;
 };
-
