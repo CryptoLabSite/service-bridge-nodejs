@@ -4,6 +4,7 @@ import { ENV } from '../env.config';
 import { Account, Contract, ec, RpcProvider } from 'starknet';
 import { Response, ResponseCode, ResponseFactory } from '../common.type';
 import { extractCallResult, translateCallArgs } from './abi.utils';
+import { AbiCache } from './starknet.cache';
 @Injectable()
 export class StarknetService {
   async readContract(req: ReadContractReq): Promise<Response<string>> {
@@ -15,8 +16,13 @@ export class StarknetService {
 
     let abi;
     try {
-      const contractClass = await provider.getClassAt(address);
-      abi = contractClass.abi;
+      abi = AbiCache.getAbi(address);
+      if (!abi) {
+        const contractClass = await provider.getClassAt(address);
+        abi = contractClass.abi;
+
+        AbiCache.setAbi(address, abi);
+      }
     } catch (e) {
       //   todo log and return error
       return ResponseFactory.failed(ResponseCode.FAILED, 'contract not found');
@@ -61,8 +67,13 @@ export class StarknetService {
 
     let abi;
     try {
-      const contractClass = await provider.getClassAt(contractAddress);
-      abi = contractClass.abi;
+      abi = AbiCache.getAbi(contractAddress);
+      if (!abi) {
+        const contractClass = await provider.getClassAt(contractAddress);
+        abi = contractClass.abi;
+
+        AbiCache.setAbi(contractAddress, abi);
+      }
     } catch (e) {
       //   todo log and return error
       return ResponseFactory.failed(ResponseCode.FAILED, 'contract not found');
