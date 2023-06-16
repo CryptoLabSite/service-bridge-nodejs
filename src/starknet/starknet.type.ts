@@ -1,7 +1,7 @@
 export type ReadContractReq = {
-  contractAddress: string;
+  address: string;
   method: string;
-  args: Array<any>;
+  args: Array<any> | undefined;
 };
 
 export type WriteContractReq = {
@@ -12,10 +12,3 @@ export type WriteContractReq = {
   args: Array<any>;
 };
 
-export type TransactionInvokeV1DTO = {
-  callerAddress: string;
-  callerPrivateKey: string;
-  contractAddress: string;
-  entrypoint: string;
-  calldata?: Array<string>;
-};
