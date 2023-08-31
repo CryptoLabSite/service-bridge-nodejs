@@ -1,5 +1,6 @@
 export class AbiCache {
   private static abisMap = new Map();
+
   static getAbi(address: string) {
     return AbiCache.abisMap.get(address);
   }

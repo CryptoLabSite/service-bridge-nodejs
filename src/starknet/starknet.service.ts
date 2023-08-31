@@ -5,6 +5,7 @@ import { Account, Contract, ec, RpcProvider } from 'starknet';
 import { Response, ResponseCode, ResponseFactory } from '../common.type';
 import { extractCallResult, translateCallArgs } from './abi.utils';
 import { AbiCache } from './starknet.cache';
+
 @Injectable()
 export class StarknetService {
   async readContract(req: ReadContractReq): Promise<Response<string>> {
